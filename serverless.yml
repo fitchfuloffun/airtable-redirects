@@ -1,0 +1,30 @@
+service: serverless-tutorial
+
+frameworkVersion: '2'
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObjectAcl"
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource:
+        - "arn:aws:s3:::rulerepository/*"
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: post
+  redirects:
+    handler: handler.importRedirects
+    events:
+      - http:
+          path: redirects
+          method: post
